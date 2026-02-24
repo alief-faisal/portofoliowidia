@@ -418,7 +418,7 @@ export default function Admin() {
         {/* Settings Tab */}
         <TabsContent value="settings" className="space-y-6">
           <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-            <h2 className="font-semibold text-foreground">Link Resume</h2>
+            <h2 className="font-semibold text-foreground">Link Resume ( Upload cv di Google Drive salin disini kesini )</h2>
             <Input
               placeholder="https://drive.google.com/..."
               value={resumeLink}

@@ -75,7 +75,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="w-full max-w-sm border p-6 rounded-xl space-y-4">
-        <h1 className="text-xl font-bold text-center">Login Admin</h1>
+        <h1 className="text-xl font-bold text-center">Login</h1>
 
         <form onSubmit={handleLogin} className="space-y-3">
           <div>
