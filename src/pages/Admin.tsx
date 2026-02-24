@@ -98,6 +98,26 @@ export default function Admin() {
         return;
       }
       setUploading(true);
+      // idempotency: skip if same image_url already exists
+      const existing = await supabase
+        .from("gallery_photos")
+        .select("id")
+        .eq("image_url", imageUrl.trim())
+        .limit(1);
+      if (existing?.data && existing.data.length > 0) {
+        toast({
+          title: "Sudah ada",
+          description: "Foto ini sudah pernah ditambahkan",
+          variant: "default",
+        });
+        setTitle("");
+        setImageUrl("");
+        fetchPhotos();
+        setUploading(false);
+        uploadLock.current = false;
+        return;
+      }
+
       const { error } = await supabase
         .from("gallery_photos")
         .insert({ title: title.trim(), image_url: imageUrl.trim() });
@@ -145,9 +165,32 @@ export default function Admin() {
     const { data: urlData } = supabase.storage
       .from("gallery")
       .getPublicUrl(fileName);
+    const publicUrl = urlData?.publicUrl;
+    // idempotency: skip if same image_url already exists
+    if (publicUrl) {
+      const existingFile = await supabase
+        .from("gallery_photos")
+        .select("id")
+        .eq("image_url", publicUrl)
+        .limit(1);
+      if (existingFile?.data && existingFile.data.length > 0) {
+        toast({
+          title: "Sudah ada",
+          description: "Foto ini sudah pernah ditambahkan",
+          variant: "default",
+        });
+        setTitle("");
+        if (fileRef.current) fileRef.current.value = "";
+        fetchPhotos();
+        setUploading(false);
+        uploadLock.current = false;
+        return;
+      }
+    }
+
     const { error: insertError } = await supabase
       .from("gallery_photos")
-      .insert({ title: title.trim(), image_url: urlData.publicUrl });
+      .insert({ title: title.trim(), image_url: publicUrl });
     if (insertError)
       toast({
         title: "Gagal simpan",
