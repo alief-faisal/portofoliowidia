@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 270 30% 96%;
+    --foreground: 270 20% 15%;
+
+    --card: 270 25% 98%;
+    --card-foreground: 270 20% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 270 20% 15%;
+
+    --primary: 270 50% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 270 20% 92%;
+    --secondary-foreground: 270 20% 15%;
+
+    --muted: 270 15% 93%;
+    --muted-foreground: 270 10% 45%;
+
+    --accent: 270 40% 88%;
+    --accent-foreground: 270 20% 15%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 270 20% 88%;
+    --input: 270 20% 88%;
+    --ring: 270 50% 55%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 270 25% 98%;
+    --sidebar-foreground: 270 10% 30%;
+    --sidebar-primary: 270 50% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 270 20% 92%;
+    --sidebar-accent-foreground: 270 10% 30%;
+    --sidebar-border: 270 20% 88%;
+    --sidebar-ring: 270 50% 55%;
+  }
+
+  .dark {
+    --background: 270 20% 8%;
+    --foreground: 270 10% 92%;
+
+    --card: 270 20% 12%;
+    --card-foreground: 270 10% 92%;
+
+    --popover: 270 20% 12%;
+    --popover-foreground: 270 10% 92%;
+
+    --primary: 270 50% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 270 15% 18%;
+    --secondary-foreground: 270 10% 92%;
+
+    --muted: 270 15% 18%;
+    --muted-foreground: 270 10% 55%;
+
+    --accent: 270 20% 22%;
+    --accent-foreground: 270 10% 92%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 270 15% 20%;
+    --input: 270 15% 20%;
+    --ring: 270 50% 60%;
+
+    --sidebar-background: 270 20% 10%;
+    --sidebar-foreground: 270 10% 85%;
+    --sidebar-primary: 270 50% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 270 15% 18%;
+    --sidebar-accent-foreground: 270 10% 85%;
+    --sidebar-border: 270 15% 20%;
+    --sidebar-ring: 270 50% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Hand-drawn button styles */
+.hand-drawn-button {
+  position: relative;
+  text-align: center;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+  background-color: transparent;
+  filter: url(#handDrawnNoise);
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  font-family: 'Courier New', monospace;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 1em;
+  border-width: 0px;
+  border-radius: 2rem;
+  box-shadow: #33333366 4px 4px 0 1px;
+  animation: hd-idle 1s infinite ease-in-out;
+  color: hsl(var(--foreground));
+}
+
+.hand-drawn-button .highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  fill: rgba(140, 80, 200, 0.3);
+  stroke: rgba(140, 80, 200, 0.5);
+  stroke-width: 10;
+  stroke-linecap: round;
+  pointer-events: none;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  transition: stroke-dashoffset 0.5s ease-in-out;
+}
+
+.hand-drawn-button .button-cosm {
+  fill: #33333366;
+  transition: 0.3s ease-out;
+  scale: 0.5;
+  position: absolute;
+  translate: calc(-100% + 24px) 1.5rem;
+}
+
+@keyframes hd-idle {
+  0% { filter: url(#handDrawnNoise); }
+  50% { rotate: 2.5deg; filter: url(#handDrawnNoise2); }
+  100% { filter: url(#handDrawnNoise); }
+}
+
+.hand-drawn-button:hover {
+  font-weight: bold;
+  border-width: 0px;
+  border-radius: 2rem;
+  rotate: -2.5deg;
+  animation: hd-hover 2.5s infinite ease-in-out;
+}
+
+.hand-drawn-button:hover .highlight {
+  stroke-dashoffset: 0;
+}
+
+.hand-drawn-button:hover .button-cosm {
+  rotate: -15deg;
+  translate: calc(-100% + 22px) 1.9rem;
+}
+
+.hand-drawn-button:active .highlight {
+  stroke-dashoffset: 1000;
+  animation: hd-highlight 5s infinite, hd-col 0.5s forwards;
+  stroke: #bc4e2666;
+}
+
+.hand-drawn-button:active {
+  box-shadow: inset #333333f1 4px 4px 0 1px;
+  rotate: -2.5deg;
+  animation: hd-active 1s infinite ease-in-out;
+}
+
+.hand-drawn-button:active .button-cosm {
+  fill: #333333f1;
+  rotate: -135deg;
+  translate: calc(-100% + 55px) 1.6rem;
+  animation: none;
+}
+
+@keyframes hd-hover {
+  0% { rotate: 0deg; filter: url(#handDrawnNoise); translate: 0 0px; }
+  25% { rotate: -1deg; filter: url(#handDrawnNoise2); translate: 0 -2px; }
+  50% { rotate: 0deg; filter: url(#handDrawnNoise); translate: 0 2px; }
+  75% { rotate: -1deg; filter: url(#handDrawnNoise2); translate: 0 -2px; }
+  100% { rotate: 0deg; filter: url(#handDrawnNoise); translate: 0 0px; }
+}
+
+@keyframes hd-col {
+  0% { stroke: rgba(140, 80, 200, 0.5); }
+  100% { stroke: #1c98eb66; }
+}
+
+@keyframes hd-highlight {
+  0% { stroke-dashoffset: 0; }
+  25% { stroke-dashoffset: 1000; }
+  50% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes hd-active {
+  0% { filter: url(#handDrawnNoiset); translate: 0 -1px; }
+  25% { rotate: -3deg; }
+  50% { filter: url(#handDrawnNoiset2); translate: 0 1px; }
+  66% { rotate: 1.5deg; }
+  100% { filter: url(#handDrawnNoiset); translate: 0 -1px; }
+}
