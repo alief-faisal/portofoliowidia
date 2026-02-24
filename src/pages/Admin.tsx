@@ -36,6 +36,7 @@ export default function Admin() {
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(true);
   const fileRef = useRef<HTMLInputElement>(null);
+  const uploadLock = useRef(false);
 
   // Settings state
   const [resumeLink, setResumeLink] = useState("");
@@ -83,6 +84,8 @@ export default function Admin() {
 
   const handleUpload = async () => {
     if (!supabase) return;
+    if (uploadLock.current) return; // prevent re-entrancy/double-click
+    uploadLock.current = true;
 
     if (uploadMode === "url") {
       if (!imageUrl.trim() || !title.trim()) {
@@ -91,6 +94,7 @@ export default function Admin() {
           description: "Mohon isi judul dan URL gambar",
           variant: "destructive",
         });
+        uploadLock.current = false;
         return;
       }
       setUploading(true);
@@ -110,6 +114,7 @@ export default function Admin() {
         fetchPhotos();
       }
       setUploading(false);
+      uploadLock.current = false;
       return;
     }
 
@@ -134,6 +139,7 @@ export default function Admin() {
         variant: "destructive",
       });
       setUploading(false);
+      uploadLock.current = false;
       return;
     }
     const { data: urlData } = supabase.storage
@@ -155,6 +161,7 @@ export default function Admin() {
       fetchPhotos();
     }
     setUploading(false);
+    uploadLock.current = false;
   };
 
   const handleDelete = async (photo: GalleryPhoto) => {
