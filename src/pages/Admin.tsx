@@ -309,7 +309,7 @@ export default function Admin() {
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="gallery">Gallery</TabsTrigger>
           <TabsTrigger value="settings">Pengaturan</TabsTrigger>
-          <TabsTrigger value="about">About Me</TabsTrigger>
+          <TabsTrigger value="about">Tentang Widi</TabsTrigger>
         </TabsList>
 
         {/* Gallery Tab */}
